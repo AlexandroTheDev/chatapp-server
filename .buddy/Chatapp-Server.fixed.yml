@@ -11,7 +11,7 @@
     path: "/home/chatroom-server-ssh/htdocs/api-chatroom.playappify.com"
     auth:
       username: "chatroom-server-ssh"
-      password: "secure!swtR1Kuk1Mc7SmpZp9B6WQ72gYm9DQcFt0ZediH6Sc4=.r3KUQ9eUTIqkBt7XzpEboQ=="
+      password: "secure!OFr+KfUoQhdSTqmaSQN/kDAV+Nx5RkcPbFyWL8Oewqg=.Ro1Y/zB9hbN5vHmvieGcBw=="
   actions:
   - action: "npm install"
     type: "BUILD"
@@ -30,8 +30,8 @@
   - action: "Execute pm2 start npm --name \"chatapp-server\" -- start"
     type: "SSH_COMMAND"
     commands:
-    - "pm2 stop all"
-    - "pm2 delete all"
+    - "pm2 stop chatapp-server"
+    - "pm2 delete chatapp-server"
     - "npm -v"
     - "npm install"
     - "pm2 start npm --name \"chatapp-server\" -- start"
