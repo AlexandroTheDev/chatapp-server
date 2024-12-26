@@ -27,3 +27,14 @@
     - "node_modules/"
     targets:
     - "chatroom_server_ssh"
+  - action: "Execute pm2 start npm --name \"chatapp-server\" -- start"
+    type: "SSH_COMMAND"
+    commands:
+    - "pm2 stop chatapp-server"
+    - "pm2 delete chatapp-server"
+    - "npm -v"
+    - "npm install"
+    - "pm2 start npm --name \"chatapp-server\" -- start"
+    targets:
+    - "chatroom_server_ssh"
+    run_as_script: true
