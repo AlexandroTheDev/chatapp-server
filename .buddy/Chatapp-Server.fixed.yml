@@ -30,8 +30,8 @@
   - action: "Execute pm2 start npm --name \"chatapp-server\" -- start"
     type: "SSH_COMMAND"
     commands:
-    - "pm2 stop chatapp-server"
-    - "pm2 delete chatapp-server"
+    - "pm2 stop all"
+    - "pm2 delete all"
     - "npm -v"
     - "npm install"
     - "pm2 start npm --name \"chatapp-server\" -- start"
