@@ -1,0 +1,40 @@
+- pipeline: "Chatapp Server"
+  events:
+  - type: "PUSH"
+    refs:
+    - ":default"
+  fail_on_prepare_env_warning: true
+  targets:
+  - type: "SSH"
+    id: "chatroom_server_ssh"
+    host: "62.72.59.195"
+    path: "/home/chatroom-server-ssh/htdocs/api-chatroom.playappify.com"
+    auth:
+      username: "chatroom-server-ssh"
+      password: "secure!swtR1Kuk1Mc7SmpZp9B6WQ72gYm9DQcFt0ZediH6Sc4=.r3KUQ9eUTIqkBt7XzpEboQ=="
+  actions:
+  - action: "npm install"
+    type: "BUILD"
+    docker_image_name: "library/node"
+    docker_image_tag: "22"
+    execute_commands:
+    - "# yarn install"
+    - "npm install"
+    shell: "BASH"
+  - action: "Transfer files"
+    type: "TRANSFER"
+    deployment_excludes:
+    - "node_modules/"
+    targets:
+    - "chatroom_server_ssh"
+  - action: "Execute pm2 start npm --name \"chatapp-server\" -- start"
+    type: "SSH_COMMAND"
+    commands:
+    - "pm2 stop chatapp-server"
+    - "pm2 delete chatapp-server"
+    - "npm -v"
+    - "npm install"
+    - "pm2 start npm --name \"chatapp-server\" -- start"
+    targets:
+    - "chatroom_server_ssh"
+    run_as_script: true
