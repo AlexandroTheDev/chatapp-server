@@ -4,6 +4,14 @@
     refs:
     - ":default"
   fail_on_prepare_env_warning: true
+  targets:
+  - type: "SSH"
+    id: "chatroom_server_ssh"
+    host: "62.72.59.195"
+    path: "/home/chatroom-server-ssh/htdocs/api-chatroom.playappify.com"
+    auth:
+      username: "chatroom-server-ssh"
+      password: "secure!swtR1Kuk1Mc7SmpZp9B6WQ72gYm9DQcFt0ZediH6Sc4=.r3KUQ9eUTIqkBt7XzpEboQ=="
   actions:
   - action: "npm install"
     type: "BUILD"
@@ -13,3 +21,9 @@
     - "# yarn install"
     - "npm install"
     shell: "BASH"
+  - action: "Transfer files"
+    type: "TRANSFER"
+    deployment_excludes:
+    - "node_modules/"
+    targets:
+    - "chatroom_server_ssh"
