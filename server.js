@@ -3,8 +3,7 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 
 require("dotenv").config();
-const port = process.env.PORT || 5000;
-console.log(process.env.FE);
+const port = 3001 || process.env.PORT;
 
 const app = express();
 const httpServer = createServer(app);
