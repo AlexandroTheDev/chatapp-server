@@ -14,20 +14,31 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", (socket) => {
-  // console.log(socket.conn);
-
-  socket.on("click", (msg) => {
-    console.log(msg);
-  });
-  socket.on("new_user", (user) => {
-    io.emit("system_message", {
-      user: "system",
+  socket.on("new_user", (room, user) => {
+    socket.join(room);
+    socket.data.userId = socket.id;
+    socket.data.name = user.name;
+    io.to(room).emit("system_message", {
+      user: { name: "system" },
       message: `User ${user.name} joined the room`,
     });
   });
 
-  socket.on("send_message", (msg) => {
-    socket.broadcast.emit("receive_message", msg);
+  socket.on("send_message", (room, msg) => {
+    socket.to(room).emit("receive_message", room, msg);
+  });
+
+  socket.on("typing", (room, user) => {
+    socket.broadcast.to(room).emit("typing", room, user);
+  });
+
+  socket.on("disconnect", () => {
+    if (socket.data.name) {
+      io.emit("system_message", {
+        user: { name: "system" },
+        message: `${socket.data.name} left the room`,
+      });
+    }
   });
 });
 
